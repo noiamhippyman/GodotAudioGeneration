@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Synth Examples/ADSROscSynth.gd" type="Script" id=1]
+[ext_resource path="res://Classes/Oscillator.gd" type="Script" id=2]
+[ext_resource path="res://Classes/EnvelopeADSR.gd" type="Script" id=3]
+
+
+
+[sub_resource type="AudioStreamGenerator" id=1]
+
+[node name="ADSROscSynth" type="Node"]
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 1 )
+
+[node name="Oscillator" type="Node" parent="."]
+script = ExtResource( 2 )
+frequency = 440.0
+peak_amplitude = 0.2
+
+[node name="EnvelopeADSR" type="Node" parent="."]
+script = ExtResource( 3 )
+attack = 1.0
+decay = 2.0
+sustain = 0.5
+release = 4.0

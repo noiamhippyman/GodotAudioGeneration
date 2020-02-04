@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Synth Examples/FilterADSROscSynth.gd" type="Script" id=1]
+[ext_resource path="res://Classes/Oscillator.gd" type="Script" id=2]
+[ext_resource path="res://Classes/EnvelopeADSR.gd" type="Script" id=3]
+[ext_resource path="res://Classes/FilterResonant.gd" type="Script" id=4]
+
+
+
+[sub_resource type="AudioStreamGenerator" id=1]
+
+[node name="FilterADSROscSynth" type="Node"]
+script = ExtResource( 1 )
+filter_envelope_amount = 0.9
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 1 )
+
+[node name="Oscillator" type="Node" parent="."]
+script = ExtResource( 2 )
+frequency = 32.7
+peak_amplitude = 1.0
+
+[node name="EnvelopeADSR" type="Node" parent="."]
+script = ExtResource( 3 )
+decay = 0.4
+sustain = 0.5
+release = 0.4
+
+[node name="FilterResonant" type="Node" parent="."]
+script = ExtResource( 4 )
+cutoff = 0.1
+resonance = 0.99
+
+[node name="FilterEnvelopeADSR" type="Node" parent="."]
+script = ExtResource( 3 )
+attack = 0.3
+decay = 0.3

@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Synth Examples/SingleOscSynth.gd" type="Script" id=1]
+[ext_resource path="res://Classes/Oscillator.tscn" type="PackedScene" id=2]
+
+
+
+[sub_resource type="AudioStreamGenerator" id=1]
+
+[node name="SingleOscSynth" type="Node"]
+script = ExtResource( 1 )
+sample_rate = 44100.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 1 )
+
+[node name="Oscillator" parent="." instance=ExtResource( 2 )]
+wave_type = 2
+frequency = 440.0
+peak_amplitude = 0.4
