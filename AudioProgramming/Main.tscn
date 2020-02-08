@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Main.gd" type="Script" id=1]
+
+[node name="Main" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonHBox" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 20.0
+
+[node name="AddNodeButton" type="MenuButton" parent="VBoxContainer/ButtonHBox"]
+margin_right = 75.0
+margin_bottom = 20.0
+text = "Add Node"
+
+[node name="DeleteNodeButton" type="MenuButton" parent="VBoxContainer/ButtonHBox"]
+margin_left = 79.0
+margin_right = 172.0
+margin_bottom = 20.0
+text = "Delete Node"
+
+[node name="GraphEdit" type="GraphEdit" parent="VBoxContainer"]
+margin_top = 24.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_offset = Vector2( 0, -20 )
+[connection signal="pressed" from="VBoxContainer/ButtonHBox/AddNodeButton" to="." method="_on_AddNodeButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButtonHBox/DeleteNodeButton" to="." method="_on_DeleteNodeButton_pressed"]

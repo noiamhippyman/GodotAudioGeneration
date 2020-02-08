@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "GraphNode",
+"class": "AudioOutputNode",
+"language": "GDScript",
+"path": "res://Node Editor/Nodes/AudioOutputNode.gd"
+}, {
 "base": "Node",
 "class": "EnvelopeADSR",
 "language": "GDScript",
@@ -23,19 +28,26 @@ _global_script_classes=[ {
 "class": "Oscillator",
 "language": "GDScript",
 "path": "res://Classes/Oscillator.gd"
+}, {
+"base": "GraphNode",
+"class": "OscillatorNode",
+"language": "GDScript",
+"path": "res://Node Editor/Nodes/OscillatorNode.gd"
 } ]
 _global_script_class_icons={
+"AudioOutputNode": "",
 "EnvelopeADSR": "",
 "FilterResonant": "",
-"Oscillator": ""
+"Oscillator": "",
+"OscillatorNode": ""
 }
 
 [application]
 
 config/name="AudioProgramming"
-run/main_scene="res://Game.tscn"
+run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
-[rendering]
+[autoload]
 
-environment/default_environment="res://default_env.tres"
+Globals="*res://Globals.gd"
