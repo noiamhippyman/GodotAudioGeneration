@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "PopupMenu",
+"class": "AddNodePopupMenu",
+"language": "GDScript",
+"path": "res://Node Editor/GUI/AddNodePopupMenu.gd"
+}, {
 "base": "GraphNode",
 "class": "AudioOutputNode",
 "language": "GDScript",
@@ -35,6 +40,7 @@ _global_script_classes=[ {
 "path": "res://Node Editor/Nodes/OscillatorNode.gd"
 } ]
 _global_script_class_icons={
+"AddNodePopupMenu": "",
 "AudioOutputNode": "",
 "EnvelopeADSR": "",
 "FilterResonant": "",
@@ -51,3 +57,11 @@ config/icon="res://icon.png"
 [autoload]
 
 Globals="*res://Globals.gd"
+
+[input]
+
+kb_shortcut_add_node={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"unicode":0,"echo":false,"script":null)
+ ]
+}

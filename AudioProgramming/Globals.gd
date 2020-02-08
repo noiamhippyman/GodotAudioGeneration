@@ -13,3 +13,6 @@ const SLOT_COLOR_REAL:Color = Color.yellowgreen
 const SLOT_COLOR_STRING:Color = Color.magenta
 const SLOT_COLOR_VECTOR2:Color = Color.silver
 const SLOT_COLOR_VECTOR3:Color = Color.gold
+
+const NODE_TYPE_OSCILLATOR:int = 0
+const NODE_TYPE_AUDIO_OUTPUT:int = 1
