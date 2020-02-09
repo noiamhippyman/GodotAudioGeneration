@@ -43,4 +43,6 @@ margin_right = 20.0
 margin_bottom = 20.0
 script = ExtResource( 3 )
 [connection signal="new_project_requested" from="RootVBoxContainer/MenuButtonHBoxContainer/FileMenuButton" to="." method="_on_FileMenuButton_new_project_requested"]
+[connection signal="tab_changed" from="RootVBoxContainer/Tabs" to="." method="_on_Tabs_tab_changed"]
+[connection signal="tab_close" from="RootVBoxContainer/Tabs" to="." method="_on_Tabs_tab_close"]
 [connection signal="id_pressed" from="AddNodePopupMenu" to="." method="_on_AddNodePopupMenu_id_pressed"]
