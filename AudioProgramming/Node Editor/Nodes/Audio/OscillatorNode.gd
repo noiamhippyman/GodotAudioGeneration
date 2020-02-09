@@ -17,9 +17,6 @@ var output_label:Label = null
 func _init():
 	title = "Oscillator"
 	
-	#resizable = true
-	#connect("resize_request",self,"_on_resize_request")
-	
 	slot0 = HBoxContainer.new()
 	slot1 = HBoxContainer.new()
 	slot2 = HBoxContainer.new()
@@ -35,6 +32,7 @@ func _init():
 	wavetype_option_button.add_item("2. Sawtooth",Oscillator.eWaveType.Sawtooth)
 	wavetype_option_button.add_item("3. Triangle",Oscillator.eWaveType.Triangle)
 	wavetype_option_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	wavetype_option_button.connect("item_selected",self,"_on_wavetype_selected")
 	
 	var spacer_control = Control.new()
 	spacer_control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -55,6 +53,7 @@ func _init():
 	frequency_line_edit.text = "440.0"
 	frequency_line_edit.placeholder_text = "440.0"
 	frequency_line_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	frequency_line_edit.connect("text_entered",self,"_on_frequency_changed")
 	
 	spacer_control = Control.new()
 	spacer_control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -70,6 +69,7 @@ func _init():
 	amplitude_line_edit.text = "0.5"
 	amplitude_line_edit.placeholder_text = "0.5"
 	amplitude_line_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	amplitude_line_edit.connect("text_entered",self,"_on_amplitude_changed")
 	
 	spacer_control = Control.new()
 	spacer_control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -83,7 +83,21 @@ func _init():
 	set_slot(2,true,Globals.SLOT_TYPE_REAL,Globals.SLOT_COLOR_REAL,false,-1,-1)
 	
 	oscillator = Oscillator.new()
+	oscillator.wave_type = Oscillator.eWaveType.Sine
 	add_child(oscillator)
 
-func _on_resize_request(min_size:Vector2):
-	rect_size = min_size
+func _on_wavetype_selected(id:int):
+	oscillator.wave_type = id
+
+func _on_frequency_changed(value:String):
+	if (value.is_valid_float()):
+		oscillator.frequency = float(value)
+	else:
+		frequency_line_edit.text = frequency_line_edit.placeholder_text
+
+func _on_amplitude_changed(value:String):
+	if (value.is_valid_float()):
+		oscillator.peak_amplitude = clamp(float(value),0.0,1.0)
+		amplitude_line_edit.text = str(oscillator.peak_amplitude)
+	else:
+		amplitude_line_edit.text = amplitude_line_edit.placeholder_text

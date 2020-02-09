@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://SFX Generator/SFXGeneratorMain.gd" type="Script" id=1]
+[ext_resource path="res://SFX Generator/GUI/FileMenuButton.gd" type="Script" id=2]
+[ext_resource path="res://Node Editor/GUI/AddNodePopupMenu.gd" type="Script" id=3]
+
+[node name="SFXGeneratorMain" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RootVBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButtonHBoxContainer" type="HBoxContainer" parent="RootVBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 20.0
+
+[node name="FileMenuButton" type="MenuButton" parent="RootVBoxContainer/MenuButtonHBoxContainer"]
+margin_right = 35.0
+margin_bottom = 20.0
+text = "File"
+switch_on_hover = true
+script = ExtResource( 2 )
+
+[node name="Tabs" type="Tabs" parent="RootVBoxContainer"]
+margin_top = 24.0
+margin_right = 1024.0
+margin_bottom = 48.0
+tab_align = 0
+tab_close_display_policy = 2
+scrolling_enabled = false
+
+[node name="AddNodePopupMenu" type="PopupMenu" parent="."]
+margin_right = 20.0
+margin_bottom = 20.0
+script = ExtResource( 3 )
+[connection signal="new_project_requested" from="RootVBoxContainer/MenuButtonHBoxContainer/FileMenuButton" to="." method="_on_FileMenuButton_new_project_requested"]
+[connection signal="id_pressed" from="AddNodePopupMenu" to="." method="_on_AddNodePopupMenu_id_pressed"]
