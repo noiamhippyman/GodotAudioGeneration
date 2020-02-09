@@ -7,6 +7,7 @@ var add_node_popup_menu:PopupMenu = null
 var no_projects_vbox:VBoxContainer = null
 
 func add_node(id:int):
+	# adds a node to the current_project_editor
 	var node:GraphNode = null
 	match id:
 		Globals.NODE_TYPE_OSCILLATOR:
@@ -37,23 +38,36 @@ func add_project():
 	if (no_projects_vbox.visible):
 		no_projects_vbox.visible = false
 
-func close_project(name:String):
-	var existing_projects = root.get_children()
-	var current_project = null
-	for project in existing_projects:
+func get_project_by_name(name:String):
+	var projects = root.get_children()
+	for project in projects:
+		if (not project is GraphEdit):
+			continue
 		if (project.name == name):
-			project.queue_free()
-			break
+			return project
+	
+	# no project found with this name
+	return null
+
+func close_project(name:String):
+	get_project_by_name(name).queue_free()
+
+func close_project_tab(tab:int):
+	var name = project_tabs.get_tab_title(tab)
+	close_project(name)
+	project_tabs.remove_tab(tab)
+	
+	if (project_tabs.current_tab > -1):
+		change_project_tab(project_tabs.current_tab)
+	else:
+		current_project_editor = null
+		no_projects_vbox.visible = true
 
 func change_project_tab(tab:int):
 	current_project_editor.visible = false
 	var name = project_tabs.get_tab_title(tab)
-	var existing_projects = root.get_children()
-	for child in existing_projects:
-		if (child.name == name):
-			current_project_editor = child
-			current_project_editor.visible = true
-			break
+	current_project_editor = get_project_by_name(name)
+	current_project_editor.visible = true
 
 func _ready():
 	project_tabs = $RootVBoxContainer/Tabs
@@ -75,15 +89,11 @@ func _on_Tabs_tab_changed(tab:int):
 	change_project_tab(tab)
 
 func _on_Tabs_tab_close(tab:int):
-	var name = project_tabs.get_tab_title(tab)
-	close_project(name)
-	project_tabs.remove_tab(tab)
-	
-	if (project_tabs.current_tab > -1):
-		change_project_tab(project_tabs.current_tab)
-	else:
-		current_project_editor = null
-		no_projects_vbox.visible = true
+	close_project_tab(tab)
 
 func _on_NoProjectsVBox_Button_pressed():
 	add_project()
+
+func _on_FileMenuButton_close_project_requested():
+	if (!no_projects_vbox.visible):
+		close_project_tab(project_tabs.current_tab)

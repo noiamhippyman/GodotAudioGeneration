@@ -18,3 +18,4 @@ const NODE_TYPE_OSCILLATOR:int = 0
 const NODE_TYPE_AUDIO_OUTPUT:int = 1
 
 const FILE_NEW_PROJECT:int = 0
+const FILE_CLOSE_PROJECT:int = 1
