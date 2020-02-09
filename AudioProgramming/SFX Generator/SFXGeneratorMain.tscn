@@ -38,6 +38,33 @@ tab_align = 0
 tab_close_display_policy = 2
 scrolling_enabled = false
 
+[node name="NoProjectsVBox" type="VBoxContainer" parent="RootVBoxContainer"]
+margin_top = 52.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="RootVBoxContainer/NoProjectsVBox"]
+margin_right = 1024.0
+margin_bottom = 31.0
+size_flags_vertical = 1
+text = "Welcome to the Godot SFX Generator.
+Click the huge button below to create a new project."
+align = 1
+uppercase = true
+
+[node name="Button" type="Button" parent="RootVBoxContainer/NoProjectsVBox"]
+margin_top = 35.0
+margin_right = 1024.0
+margin_bottom = 548.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Click me to create a new project."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="AddNodePopupMenu" type="PopupMenu" parent="."]
 margin_right = 20.0
 margin_bottom = 20.0
@@ -45,4 +72,5 @@ script = ExtResource( 3 )
 [connection signal="new_project_requested" from="RootVBoxContainer/MenuButtonHBoxContainer/FileMenuButton" to="." method="_on_FileMenuButton_new_project_requested"]
 [connection signal="tab_changed" from="RootVBoxContainer/Tabs" to="." method="_on_Tabs_tab_changed"]
 [connection signal="tab_close" from="RootVBoxContainer/Tabs" to="." method="_on_Tabs_tab_close"]
+[connection signal="pressed" from="RootVBoxContainer/NoProjectsVBox/Button" to="." method="_on_NoProjectsVBox_Button_pressed"]
 [connection signal="id_pressed" from="AddNodePopupMenu" to="." method="_on_AddNodePopupMenu_id_pressed"]

@@ -4,6 +4,7 @@ var root:VBoxContainer = null
 var project_tabs:Tabs = null
 var current_project_editor:GraphEdit = null
 var add_node_popup_menu:PopupMenu = null
+var no_projects_vbox:VBoxContainer = null
 
 func add_node(id:int):
 	var node:GraphNode = null
@@ -33,7 +34,8 @@ func add_project():
 	project_tabs.add_tab(current_project_editor.name)
 	project_tabs.current_tab = project_tabs.get_tab_count()-1
 	
-	print(root.get_children())
+	if (no_projects_vbox.visible):
+		no_projects_vbox.visible = false
 
 func close_project(name:String):
 	var existing_projects = root.get_children()
@@ -51,20 +53,17 @@ func change_project_tab(tab:int):
 		if (child.name == name):
 			current_project_editor = child
 			current_project_editor.visible = true
-			print(current_project_editor.name)
 			break
 
 func _ready():
 	project_tabs = $RootVBoxContainer/Tabs
 	add_node_popup_menu = $AddNodePopupMenu
 	root = $RootVBoxContainer
-	
-	add_project()
+	no_projects_vbox = $RootVBoxContainer/NoProjectsVBox
 
 func _on_GraphEdit_popup_request(position:Vector2):
 	add_node_popup_menu.rect_position = position
 	add_node_popup_menu.show_modal()
-	print(position)
 
 func _on_AddNodePopupMenu_id_pressed(id:int):
 	add_node(id)
@@ -84,3 +83,7 @@ func _on_Tabs_tab_close(tab:int):
 		change_project_tab(project_tabs.current_tab)
 	else:
 		current_project_editor = null
+		no_projects_vbox.visible = true
+
+func _on_NoProjectsVBox_Button_pressed():
+	add_project()
