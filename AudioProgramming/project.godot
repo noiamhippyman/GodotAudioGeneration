@@ -40,6 +40,16 @@ _global_script_classes=[ {
 "path": "res://Node Editor/Nodes/Audio/OscillatorNode.gd"
 }, {
 "base": "SFXGenNode",
+"class": "SFXGen4PoleFilter",
+"language": "GDScript",
+"path": "res://SFX Generator/Nodes/SFXGen4PoleFilter.gd"
+}, {
+"base": "SFXGenNode",
+"class": "SFXGenEnvelopeNode",
+"language": "GDScript",
+"path": "res://SFX Generator/Nodes/SFXGenEnvelopeNode.gd"
+}, {
+"base": "SFXGenNode",
 "class": "SFXGenMathNode",
 "language": "GDScript",
 "path": "res://SFX Generator/Nodes/SFXGenMathNode.gd"
@@ -61,6 +71,8 @@ _global_script_class_icons={
 "FilterResonant": "",
 "Oscillator": "",
 "OscillatorNode": "",
+"SFXGen4PoleFilter": "",
+"SFXGenEnvelopeNode": "",
 "SFXGenMathNode": "",
 "SFXGenNode": "",
 "SFXGenOscillatorNode": ""

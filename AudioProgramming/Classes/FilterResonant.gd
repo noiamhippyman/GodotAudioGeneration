@@ -9,15 +9,19 @@ var cutoff_mod:float setget set_cutoff_mod
 func set_cutoff_mod(new_cutoff_mod:float):
 	cutoff_mod = new_cutoff_mod
 	calculate_feedback_amount()
+
 export(float) var cutoff:float setget set_cutoff
 func set_cutoff(new_cutoff:float):
 	cutoff = new_cutoff
 	calculate_feedback_amount()
+
 export(float) var resonance:float setget set_resonance
 func set_resonance(new_resonance:float):
 	resonance = new_resonance
 	calculate_feedback_amount()
+
 export(eFilterMode) var mode:int
+
 var feedback_amount:float
 var buf0:float
 var buf1:float

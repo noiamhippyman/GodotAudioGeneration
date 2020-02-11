@@ -38,3 +38,11 @@ func add_control_to_slot_control(index:int,control:Control):
 	if (index < 0 or index >= get_child_count()):
 		return
 	get_slot_control(index).add_child(control)
+
+func add_spacer_to_slot_control(index:int):
+	if (index < 0 or index >= get_child_count()):
+		return
+	var slot:HBoxContainer = get_slot_control(index)
+	var spacer_control:Control = Control.new()
+	spacer_control.size_flags_horizontal = SIZE_EXPAND_FILL
+	slot.add_child(spacer_control)

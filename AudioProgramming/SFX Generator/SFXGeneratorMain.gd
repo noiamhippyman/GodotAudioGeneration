@@ -13,7 +13,11 @@ func add_node(id:int):
 	var node:GraphNode = null
 	match id:
 		Globals.NODE_TYPE_OSCILLATOR:
-			node = OscillatorNode.new()
+			node = SFXGenOscillatorNode.new()
+		Globals.NODE_TYPE_4POLE_FILTER:
+			node = SFXGen4PoleFilter.new()
+		Globals.NODE_TYPE_ENVELOPE:
+			node = SFXGenEnvelopeNode.new()
 		Globals.NODE_TYPE_AUDIO_OUTPUT:
 			node = AudioOutputNode.new()
 		Globals.NODE_TYPE_MATH:
