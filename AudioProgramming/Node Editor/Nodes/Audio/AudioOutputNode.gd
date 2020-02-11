@@ -12,6 +12,9 @@ var sample_rate_text:LineEdit = null
 var stream_input_label:Label = null
 var play_stop_button:Button = null
 
+func get_class():
+	return "AudioOutputNode"
+
 func _init():
 	title = "Audio Output"
 	

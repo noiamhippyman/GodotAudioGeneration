@@ -38,6 +38,21 @@ _global_script_classes=[ {
 "class": "OscillatorNode",
 "language": "GDScript",
 "path": "res://Node Editor/Nodes/Audio/OscillatorNode.gd"
+}, {
+"base": "SFXGenNode",
+"class": "SFXGenMathNode",
+"language": "GDScript",
+"path": "res://SFX Generator/Nodes/SFXGenMathNode.gd"
+}, {
+"base": "GraphNode",
+"class": "SFXGenNode",
+"language": "GDScript",
+"path": "res://SFX Generator/Nodes/SFXGenNode.gd"
+}, {
+"base": "SFXGenNode",
+"class": "SFXGenOscillatorNode",
+"language": "GDScript",
+"path": "res://SFX Generator/Nodes/SFXGenOscillatorNode.gd"
 } ]
 _global_script_class_icons={
 "AddNodePopupMenu": "",
@@ -45,7 +60,10 @@ _global_script_class_icons={
 "EnvelopeADSR": "",
 "FilterResonant": "",
 "Oscillator": "",
-"OscillatorNode": ""
+"OscillatorNode": "",
+"SFXGenMathNode": "",
+"SFXGenNode": "",
+"SFXGenOscillatorNode": ""
 }
 
 [application]

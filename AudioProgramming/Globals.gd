@@ -16,6 +16,10 @@ const SLOT_COLOR_VECTOR3:Color = Color.gold
 
 const NODE_TYPE_OSCILLATOR:int = 0
 const NODE_TYPE_AUDIO_OUTPUT:int = 1
+const NODE_TYPE_MATH:int = 2
 
 const FILE_NEW_PROJECT:int = 0
 const FILE_CLOSE_PROJECT:int = 1
+
+const EDIT_UNDO:int = 0
+const EDIT_REDO:int = 1

@@ -13,6 +13,8 @@ var amplitude_label:Label = null
 var amplitude_line_edit:LineEdit = null
 var output_label:Label = null
 
+func get_class():
+	return "OscillatorNode"
 
 func _init():
 	title = "Oscillator"
