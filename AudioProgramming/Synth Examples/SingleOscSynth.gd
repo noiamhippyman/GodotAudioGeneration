@@ -12,7 +12,6 @@ func fill_buffer():
 		oscillator.process()
 		var sample = oscillator.get_sample()
 		playback.push_frame(Vector2(sample,sample))
-		
 		frames -= 1
 
 func _ready():

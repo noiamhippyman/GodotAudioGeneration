@@ -42,12 +42,37 @@ _global_script_classes=[ {
 "base": "SFXGenNode",
 "class": "SFXGen4PoleFilter",
 "language": "GDScript",
-"path": "res://SFX Generator/Nodes/SFXGen4PoleFilter.gd"
+"path": "res://SFX Generator/Nodes/Audio/SFXGen4PoleFilter.gd"
+}, {
+"base": "SFXGenNode",
+"class": "SFXGenAudioOutputNode",
+"language": "GDScript",
+"path": "res://SFX Generator/Nodes/Audio/SFXGenAudioOutputNode.gd"
+}, {
+"base": "SFXGenNode",
+"class": "SFXGenBooleanNode",
+"language": "GDScript",
+"path": "res://SFX Generator/Nodes/Variables/SFXGenBooleanNode.gd"
+}, {
+"base": "GraphEdit",
+"class": "SFXGenEditor",
+"language": "GDScript",
+"path": "res://SFX Generator/SFXGenEditor.gd"
 }, {
 "base": "SFXGenNode",
 "class": "SFXGenEnvelopeNode",
 "language": "GDScript",
-"path": "res://SFX Generator/Nodes/SFXGenEnvelopeNode.gd"
+"path": "res://SFX Generator/Nodes/Audio/SFXGenEnvelopeNode.gd"
+}, {
+"base": "SFXGenNode",
+"class": "SFXGenFloatNode",
+"language": "GDScript",
+"path": "res://SFX Generator/Nodes/Variables/SFXGenFloatNode.gd"
+}, {
+"base": "SFXGenNode",
+"class": "SFXGenIntegerNode",
+"language": "GDScript",
+"path": "res://SFX Generator/Nodes/Variables/SFXGenIntegerNode.gd"
 }, {
 "base": "SFXGenNode",
 "class": "SFXGenMathNode",
@@ -62,7 +87,12 @@ _global_script_classes=[ {
 "base": "SFXGenNode",
 "class": "SFXGenOscillatorNode",
 "language": "GDScript",
-"path": "res://SFX Generator/Nodes/SFXGenOscillatorNode.gd"
+"path": "res://SFX Generator/Nodes/Audio/SFXGenOscillatorNode.gd"
+}, {
+"base": "SFXGenNode",
+"class": "SFXGenStringNode",
+"language": "GDScript",
+"path": "res://SFX Generator/Nodes/Variables/SFXGenStringNode.gd"
 } ]
 _global_script_class_icons={
 "AddNodePopupMenu": "",
@@ -72,10 +102,16 @@ _global_script_class_icons={
 "Oscillator": "",
 "OscillatorNode": "",
 "SFXGen4PoleFilter": "",
+"SFXGenAudioOutputNode": "",
+"SFXGenBooleanNode": "",
+"SFXGenEditor": "",
 "SFXGenEnvelopeNode": "",
+"SFXGenFloatNode": "",
+"SFXGenIntegerNode": "",
 "SFXGenMathNode": "",
 "SFXGenNode": "",
-"SFXGenOscillatorNode": ""
+"SFXGenOscillatorNode": "",
+"SFXGenStringNode": ""
 }
 
 [application]

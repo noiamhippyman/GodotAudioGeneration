@@ -19,9 +19,21 @@ func add_node(id:int):
 		Globals.NODE_TYPE_ENVELOPE:
 			node = SFXGenEnvelopeNode.new()
 		Globals.NODE_TYPE_AUDIO_OUTPUT:
-			node = AudioOutputNode.new()
+			node = SFXGenAudioOutputNode.new()
 		Globals.NODE_TYPE_MATH:
 			node = SFXGenMathNode.new()
+		Globals.NODE_TYPE_BOOL:
+			node = SFXGenBooleanNode.new()
+		Globals.NODE_TYPE_INT:
+			node = SFXGenIntegerNode.new()
+		Globals.NODE_TYPE_REAL:
+			node = SFXGenFloatNode.new()
+		Globals.NODE_TYPE_STRING:
+			node = SFXGenStringNode.new()
+		Globals.NODE_TYPE_VECTOR2:
+			node = SFXGenBooleanNode.new()
+		Globals.NODE_TYPE_VECTOR3:
+			node = SFXGenBooleanNode.new()
 	node.offset = get_global_mouse_position() - current_project_editor.rect_global_position + current_project_editor.scroll_offset
 	current_project_editor.add_child(node)
 
@@ -38,12 +50,10 @@ func add_project():
 		current_project_editor.visible = false
 	
 	# create new current_project_editor
-	current_project_editor = GraphEdit.new()
+	current_project_editor = SFXGenEditor.new()
 	current_project_editor.name = "Unnamed Project " + str(project_tabs.get_tab_count() + 1)
-	current_project_editor.size_flags_horizontal = SIZE_EXPAND_FILL
-	current_project_editor.size_flags_vertical = SIZE_EXPAND_FILL
-	current_project_editor.connect("popup_request",self,"_on_GraphEdit_popup_request")
-	current_project_editor.connect("delete_nodes_request",self,"_on_GraphEdit_delete_nodes_request")
+	current_project_editor.connect("popup_request",self,"_on_project_editor_popup_request")
+	current_project_editor.connect("delete_nodes_request",self,"_on_project_editor_delete_nodes_request")
 	root.add_child(current_project_editor, true)
 	
 	# create new tab in project_tabs with project name
@@ -93,11 +103,11 @@ func _ready():
 	root = $RootVBoxContainer
 	no_projects_vbox = $RootVBoxContainer/NoProjectsVBox
 
-func _on_GraphEdit_popup_request(position:Vector2):
+func _on_project_editor_popup_request(position:Vector2):
 	add_node_popup_menu.rect_position = position
 	add_node_popup_menu.show_modal()
 
-func _on_GraphEdit_delete_nodes_request():
+func _on_project_editor_delete_nodes_request():
 	undo_redo.create_action("Delete Nodes")
 	undo_redo.add_do_method(self,"delete_nodes")
 	undo_redo.add_undo_method(self,"add_node",0)
