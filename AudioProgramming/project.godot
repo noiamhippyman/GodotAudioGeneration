@@ -93,6 +93,16 @@ _global_script_classes=[ {
 "class": "SFXGenStringNode",
 "language": "GDScript",
 "path": "res://SFX Generator/Nodes/Variables/SFXGenStringNode.gd"
+}, {
+"base": "SFXGenNode",
+"class": "SFXGenVector2Node",
+"language": "GDScript",
+"path": "res://SFX Generator/Nodes/Variables/SFXGenVector2Node.gd"
+}, {
+"base": "SFXGenNode",
+"class": "SFXGenVector3Node",
+"language": "GDScript",
+"path": "res://SFX Generator/Nodes/Variables/SFXGenVector3Node.gd"
 } ]
 _global_script_class_icons={
 "AddNodePopupMenu": "",
@@ -111,7 +121,9 @@ _global_script_class_icons={
 "SFXGenMathNode": "",
 "SFXGenNode": "",
 "SFXGenOscillatorNode": "",
-"SFXGenStringNode": ""
+"SFXGenStringNode": "",
+"SFXGenVector2Node": "",
+"SFXGenVector3Node": ""
 }
 
 [application]

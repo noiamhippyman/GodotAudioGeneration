@@ -1,0 +1,77 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "MenuButton",
+"class": "EditMenuButton",
+"language": "GDScript",
+"path": "res://GUI/EditMenuButton.gd"
+}, {
+"base": "Node",
+"class": "EnvelopeADSR",
+"language": "GDScript",
+"path": "res://Audio Classes/EnvelopeADSR.gd"
+}, {
+"base": "MenuButton",
+"class": "FileMenuButton",
+"language": "GDScript",
+"path": "res://GUI/FileMenuButton.gd"
+}, {
+"base": "Node",
+"class": "FilterResonant",
+"language": "GDScript",
+"path": "res://Audio Classes/FilterResonant.gd"
+}, {
+"base": "Node",
+"class": "Oscillator",
+"language": "GDScript",
+"path": "res://Audio Classes/Oscillator.gd"
+}, {
+"base": "SFXGenNode",
+"class": "SFXGenMathNode",
+"language": "GDScript",
+"path": "res://Nodes/SFXGenMathNode.gd"
+}, {
+"base": "GraphNode",
+"class": "SFXGenNode",
+"language": "GDScript",
+"path": "res://Nodes/SFXGenNode.gd"
+}, {
+"base": "GraphEdit",
+"class": "SFXGenNodeEditor",
+"language": "GDScript",
+"path": "res://SFXGenNodeEditor.gd"
+}, {
+"base": "MarginContainer",
+"class": "SFXGenNodeSliderSlot",
+"language": "GDScript",
+"path": "res://Nodes/SFXGenNodeSliderSlot.gd"
+} ]
+_global_script_class_icons={
+"EditMenuButton": "",
+"EnvelopeADSR": "",
+"FileMenuButton": "",
+"FilterResonant": "",
+"Oscillator": "",
+"SFXGenMathNode": "",
+"SFXGenNode": "",
+"SFXGenNodeEditor": "",
+"SFXGenNodeSliderSlot": ""
+}
+
+[application]
+
+config/name="AudioGeneration2"
+run/main_scene="res://SFXGenMain.tscn"
+config/icon="res://icon.png"
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
