@@ -17,7 +17,6 @@ func add_node(node_type:int):
 	match node_type:
 		SFXGenNodeEditor.eNodeType.Math:
 			node = SFXGenMathNode.new()
-			var n:SFXGenMathNode = SFXGenMathNode.new()
 	
 	node.offset = get_global_mouse_position() - current_project_editor.rect_global_position + current_project_editor.scroll_offset
 	

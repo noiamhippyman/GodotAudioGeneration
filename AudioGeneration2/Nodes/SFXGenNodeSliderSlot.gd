@@ -1,10 +1,11 @@
 extends MarginContainer
 class_name SFXGenNodeSliderSlot
 
+var minus_button:Button = null
+var plus_button:Button = null
 var property_label:Label = null
 var value_label:Label = null
 var value_line_edit:LineEdit = null
-var spacer_control:Control = null
 
 # Slider properties/signals/methods
 signal value_changed
@@ -13,10 +14,18 @@ signal property_changed
 var slider_dragging:bool = false
 var slider_drag_start_position:Vector2
 var slider_drag_start_value:float = 0.0
+var slider_clamp:bool = true setget set_slider_clamp
+func set_slider_clamp(enable:bool):
+	slider_clamp = enable
+	minus_button.visible = !slider_clamp
+	plus_button.visible = !slider_clamp
 
 var value:float = 0.0 setget set_value,get_value
 func set_value(new_value:float):
-	value = clamp(new_value,min_value,max_value)
+	if (slider_clamp):
+		value = clamp(new_value,min_value,max_value)
+	else:
+		value = new_value
 	value_label.text = "%1.3f" % value
 	update()
 	emit_signal("value_changed",value)
@@ -45,10 +54,47 @@ func get_max_value():
 	return max_value
 
 func toggle_gui():
+	if (!slider_clamp):
+		minus_button.visible = !minus_button.visible
+		plus_button.visible = !plus_button.visible
 	value_line_edit.visible = !value_line_edit.visible
 	value_label.visible = !value_label.visible
-	spacer_control.visible = !spacer_control.visible
 	property_label.visible = !property_label.visible
+
+func start_dragging(start_pos:Vector2):
+	slider_dragging = true
+	slider_drag_start_position = start_pos
+	slider_drag_start_value = value
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func process_dragging(amount:float):
+	var hbox = get_child(0)
+	var new_value = get_value() + step * amount
+	set_value(new_value)
+
+func stop_dragging(stop_pos:Vector2):
+	slider_dragging = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	 
+	if (slider_drag_start_value == value):
+		value_line_edit.text = value_label.text
+		value_line_edit.grab_focus()
+		value_line_edit.select_all()
+		warp_mouse(slider_drag_start_position)
+		toggle_gui()
+	else:
+		if (!slider_clamp):
+			warp_mouse(slider_drag_start_position)
+		else:
+			var hbox = get_child(0)
+			var offset = (value - min_value) / (max_value - min_value)
+			warp_mouse(Vector2(hbox.rect_size.x * offset, hbox.rect_size.y / 2))
+
+func apply_new_text_change(new_text:String):
+	if (new_text.is_valid_float()):
+		set_value(float(new_text))
+	else:
+		value_line_edit.text = "%1.3f" % get_value()
 
 func _init():
 	mouse_filter = MOUSE_FILTER_PASS
@@ -58,20 +104,50 @@ func _init():
 	hbox.connect("gui_input",self,"_on_hbox_gui_input")
 	add_child(hbox)
 	
+	var button_normal_stylebox:StyleBoxFlat = StyleBoxFlat.new()
+	button_normal_stylebox.bg_color = Color(0.3,0.3,0.3)
+	button_normal_stylebox.content_margin_left = 4
+	button_normal_stylebox.content_margin_right = 4
+	
+	var button_hover_stylebox:StyleBoxFlat = StyleBoxFlat.new()
+	button_hover_stylebox.bg_color = Color(0.25,0.25,0.25)
+	button_hover_stylebox.content_margin_left = 4
+	button_hover_stylebox.content_margin_right = 4
+	
+	var button_pressed_stylebox:StyleBoxFlat = StyleBoxFlat.new()
+	button_pressed_stylebox.bg_color = Color(0.2,0.2,0.2)
+	button_pressed_stylebox.content_margin_left = 4
+	button_pressed_stylebox.content_margin_right = 4
+	
+	minus_button = Button.new()
+	minus_button.text = "<"
+	minus_button.add_stylebox_override("normal", button_normal_stylebox)
+	minus_button.add_stylebox_override("hover", button_hover_stylebox)
+	minus_button.add_stylebox_override("pressed", button_pressed_stylebox)
+	minus_button.connect("pressed",self,"_on_minus_button_pressed")
+	#minus_button.add_stylebox_override("focus", button_normal_stylebox)
+	hbox.add_child(minus_button)
+	
 	property_label = Label.new()
 	property_label.text = "Property"
 	property_label.mouse_filter = MOUSE_FILTER_IGNORE
 	hbox.add_child(property_label)
 	
-	spacer_control = Control.new()
-	spacer_control.rect_min_size.x = 100
-	spacer_control.mouse_filter = MOUSE_FILTER_IGNORE
-	hbox.add_child(spacer_control)
-	
 	value_label = Label.new()
+	value_label.align = Label.ALIGN_RIGHT
+	value_label.rect_min_size.x = 120
+	value_label.size_flags_horizontal = SIZE_EXPAND_FILL
 	value_label.text = "%1.3f" % value
 	value_label.mouse_filter = MOUSE_FILTER_IGNORE
 	hbox.add_child(value_label)
+	
+	plus_button = Button.new()
+	plus_button.text = ">"
+	plus_button.add_stylebox_override("normal", button_normal_stylebox)
+	plus_button.add_stylebox_override("hover", button_hover_stylebox)
+	plus_button.add_stylebox_override("pressed", button_pressed_stylebox)
+	plus_button.connect("pressed",self,"_on_plus_button_pressed")
+	hbox.add_child(plus_button)
 	
 	var line_edit_stylebox:StyleBoxFlat = StyleBoxFlat.new()
 	line_edit_stylebox.bg_color = Color(0.0, 0.0, 0.0, 0.0)
@@ -88,39 +164,12 @@ func _init():
 
 func _draw():
 	var hbox = get_child(0)
-	draw_rect(Rect2(hbox.rect_position,hbox.rect_size),Color(0.4,0.4,0.4,1.0))
+	draw_rect(Rect2(hbox.rect_position,hbox.rect_size),Color(0.5,0.5,0.5,1.0))
 	
-	if (value > 0 and !value_line_edit.visible):
+	if (slider_clamp and value > 0 and !value_line_edit.visible):
 		var m:float = (value - min_value) / (max_value - min_value)
 		var value_size:Vector2 = Vector2(hbox.rect_size.x * m, hbox.rect_size.y)
 		draw_rect(Rect2(hbox.rect_position,value_size),Color(0.5,0.5,0.7,1.0))
-
-func start_dragging(start_pos:Vector2):
-	slider_dragging = true
-	slider_drag_start_position = start_pos
-	slider_drag_start_value = value
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-func process_dragging(amount:float):
-	var hbox = get_child(0)
-	var new_value = get_value() + step * amount
-	set_value(new_value)
-
-func stop_dragging(stop_pos:Vector2):
-	slider_dragging = false
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	
-	# if user just clicked then 
-	if (slider_drag_start_value == value):
-		value_line_edit.text = value_label.text
-		value_line_edit.grab_focus()
-		value_line_edit.select_all()
-		warp_mouse(slider_drag_start_position)
-		toggle_gui()
-	else:
-		var hbox = get_child(0)
-		var offset = (value - min_value) / (max_value - min_value)
-		warp_mouse(Vector2(hbox.rect_size.x * offset, hbox.rect_size.y / 2))
 
 func _on_hbox_gui_input(e):
 	if (e is InputEventMouseButton):
@@ -134,16 +183,15 @@ func _on_hbox_gui_input(e):
 	if (slider_dragging and e is InputEventMouseMotion):
 		process_dragging(e.relative.x)
 
-func apply_new_text_change(new_text:String):
-	if (new_text.is_valid_float()):
-		set_value(float(new_text))
-	else:
-		value_line_edit.text = "%1.3f" % get_value()
-
 func _on_value_line_edit_text_entered(new_text:String):
-	apply_new_text_change(new_text)
 	value_line_edit.release_focus()
 
 func _on_value_line_edit_focus_exited():
 	apply_new_text_change(value_line_edit.text)
 	toggle_gui()
+
+func _on_minus_button_pressed():
+	set_value(value - step)
+
+func _on_plus_button_pressed():
+	set_value(value + step)
