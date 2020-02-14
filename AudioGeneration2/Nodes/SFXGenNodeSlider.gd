@@ -1,11 +1,14 @@
 extends MarginContainer
-class_name SFXGenNodeSliderSlot
+class_name SFXGenNodeSlider
 
 var minus_button:Button = null
 var plus_button:Button = null
 var property_label:Label = null
 var value_label:Label = null
 var value_line_edit:LineEdit = null
+
+func set_property_name(name:String):
+	property_label.text = name
 
 # Slider properties/signals/methods
 signal value_changed
@@ -14,15 +17,10 @@ signal property_changed
 var slider_dragging:bool = false
 var slider_drag_start_position:Vector2
 var slider_drag_start_value:float = 0.0
-var slider_clamp:bool = true setget set_slider_clamp
-func set_slider_clamp(enable:bool):
-	slider_clamp = enable
-	minus_button.visible = !slider_clamp
-	plus_button.visible = !slider_clamp
 
 var value:float = 0.0 setget set_value,get_value
 func set_value(new_value:float):
-	if (slider_clamp):
+	if (minus_button == null and plus_button == null):
 		value = clamp(new_value,min_value,max_value)
 	else:
 		value = new_value
@@ -54,8 +52,9 @@ func get_max_value():
 	return max_value
 
 func toggle_gui():
-	if (!slider_clamp):
+	if (minus_button != null):
 		minus_button.visible = !minus_button.visible
+	if (plus_button != null):
 		plus_button.visible = !plus_button.visible
 	value_line_edit.visible = !value_line_edit.visible
 	value_label.visible = !value_label.visible
@@ -83,7 +82,7 @@ func stop_dragging(stop_pos:Vector2):
 		warp_mouse(slider_drag_start_position)
 		toggle_gui()
 	else:
-		if (!slider_clamp):
+		if (minus_button != null and plus_button != null):
 			warp_mouse(slider_drag_start_position)
 		else:
 			var hbox = get_child(0)
@@ -96,7 +95,7 @@ func apply_new_text_change(new_text:String):
 	else:
 		value_line_edit.text = "%1.3f" % get_value()
 
-func _init():
+func _init(clamped:bool):
 	mouse_filter = MOUSE_FILTER_PASS
 	
 	var hbox:HBoxContainer = HBoxContainer.new()
@@ -104,29 +103,36 @@ func _init():
 	hbox.connect("gui_input",self,"_on_hbox_gui_input")
 	add_child(hbox)
 	
-	var button_normal_stylebox:StyleBoxFlat = StyleBoxFlat.new()
-	button_normal_stylebox.bg_color = Color(0.3,0.3,0.3)
-	button_normal_stylebox.content_margin_left = 4
-	button_normal_stylebox.content_margin_right = 4
+	if (!clamped):
+		var button_normal_stylebox:StyleBoxFlat = StyleBoxFlat.new()
+		button_normal_stylebox.bg_color = Color(0.3,0.3,0.3)
+		button_normal_stylebox.content_margin_left = 4
+		button_normal_stylebox.content_margin_right = 4
 	
-	var button_hover_stylebox:StyleBoxFlat = StyleBoxFlat.new()
-	button_hover_stylebox.bg_color = Color(0.25,0.25,0.25)
-	button_hover_stylebox.content_margin_left = 4
-	button_hover_stylebox.content_margin_right = 4
+		var button_hover_stylebox:StyleBoxFlat = StyleBoxFlat.new()
+		button_hover_stylebox.bg_color = Color(0.25,0.25,0.25)
+		button_hover_stylebox.content_margin_left = 4
+		button_hover_stylebox.content_margin_right = 4
 	
-	var button_pressed_stylebox:StyleBoxFlat = StyleBoxFlat.new()
-	button_pressed_stylebox.bg_color = Color(0.2,0.2,0.2)
-	button_pressed_stylebox.content_margin_left = 4
-	button_pressed_stylebox.content_margin_right = 4
+		var button_pressed_stylebox:StyleBoxFlat = StyleBoxFlat.new()
+		button_pressed_stylebox.bg_color = Color(0.2,0.2,0.2)
+		button_pressed_stylebox.content_margin_left = 4
+		button_pressed_stylebox.content_margin_right = 4
 	
-	minus_button = Button.new()
-	minus_button.text = "<"
-	minus_button.add_stylebox_override("normal", button_normal_stylebox)
-	minus_button.add_stylebox_override("hover", button_hover_stylebox)
-	minus_button.add_stylebox_override("pressed", button_pressed_stylebox)
-	minus_button.connect("pressed",self,"_on_minus_button_pressed")
-	#minus_button.add_stylebox_override("focus", button_normal_stylebox)
-	hbox.add_child(minus_button)
+		minus_button = Button.new()
+		minus_button.text = "<"
+		minus_button.add_stylebox_override("normal", button_normal_stylebox)
+		minus_button.add_stylebox_override("hover", button_hover_stylebox)
+		minus_button.add_stylebox_override("pressed", button_pressed_stylebox)
+		minus_button.connect("pressed",self,"_on_minus_button_pressed")
+		hbox.add_child(minus_button)
+		
+		plus_button = Button.new()
+		plus_button.text = ">"
+		plus_button.add_stylebox_override("normal", button_normal_stylebox)
+		plus_button.add_stylebox_override("hover", button_hover_stylebox)
+		plus_button.add_stylebox_override("pressed", button_pressed_stylebox)
+		plus_button.connect("pressed",self,"_on_plus_button_pressed")
 	
 	property_label = Label.new()
 	property_label.text = "Property"
@@ -141,13 +147,8 @@ func _init():
 	value_label.mouse_filter = MOUSE_FILTER_IGNORE
 	hbox.add_child(value_label)
 	
-	plus_button = Button.new()
-	plus_button.text = ">"
-	plus_button.add_stylebox_override("normal", button_normal_stylebox)
-	plus_button.add_stylebox_override("hover", button_hover_stylebox)
-	plus_button.add_stylebox_override("pressed", button_pressed_stylebox)
-	plus_button.connect("pressed",self,"_on_plus_button_pressed")
-	hbox.add_child(plus_button)
+	if (!clamped):
+		hbox.add_child(plus_button)
 	
 	var line_edit_stylebox:StyleBoxFlat = StyleBoxFlat.new()
 	line_edit_stylebox.bg_color = Color(0.0, 0.0, 0.0, 0.0)
@@ -166,7 +167,7 @@ func _draw():
 	var hbox = get_child(0)
 	draw_rect(Rect2(hbox.rect_position,hbox.rect_size),Color(0.5,0.5,0.5,1.0))
 	
-	if (slider_clamp and value > 0 and !value_line_edit.visible):
+	if (minus_button == null and plus_button == null and value > 0 and !value_line_edit.visible):
 		var m:float = (value - min_value) / (max_value - min_value)
 		var value_size:Vector2 = Vector2(hbox.rect_size.x * m, hbox.rect_size.y)
 		draw_rect(Rect2(hbox.rect_position,value_size),Color(0.5,0.5,0.7,1.0))
