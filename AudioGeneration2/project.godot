@@ -49,10 +49,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://SFXGenNodeEditor.gd"
 }, {
-"base": "MarginContainer",
-"class": "SFXGenNodeSlider",
+"base": "SFXGenNodeSlot",
+"class": "SFXGenNodeMenuSlot",
 "language": "GDScript",
-"path": "res://Nodes/SFXGenNodeSlider.gd"
+"path": "res://Nodes/Slots/SFXGenNodeMenuSlot.gd"
+}, {
+"base": "SFXGenNodeSlot",
+"class": "SFXGenNodeSliderSlot",
+"language": "GDScript",
+"path": "res://Nodes/Slots/SFXGenNodeSliderSlot.gd"
+}, {
+"base": "MarginContainer",
+"class": "SFXGenNodeSlot",
+"language": "GDScript",
+"path": "res://Nodes/Slots/SFXGenNodeSlot.gd"
 } ]
 _global_script_class_icons={
 "EditMenuButton": "",
@@ -63,7 +73,9 @@ _global_script_class_icons={
 "SFXGenMathNode": "",
 "SFXGenNode": "",
 "SFXGenNodeEditor": "",
-"SFXGenNodeSlider": ""
+"SFXGenNodeMenuSlot": "",
+"SFXGenNodeSliderSlot": "",
+"SFXGenNodeSlot": ""
 }
 
 [application]

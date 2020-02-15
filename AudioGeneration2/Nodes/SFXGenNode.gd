@@ -1,39 +1,46 @@
 extends GraphNode
 class_name SFXGenNode
 
-enum eSlotType {
-	In,Out,NoSlot
-}
-
-enum eSlotDataType {
-	Value
-}
-
-func add_slider(property_name:String, clamped:bool = true):
-	var slider:SFXGenNodeSlider = SFXGenNodeSlider.new(clamped)
-	slider.set_property_name(property_name)
+func add_slot_slider(name:String, clamped:bool = true):
+	var slider:SFXGenNodeSliderSlot = SFXGenNodeSliderSlot.new(clamped)
+	slider.set_property_name(name)
 	add_child(slider)
+	set_slot(get_child_count()-1,true,0,Color.azure,false,-1,-1)
 	return slider
-	
 
-func add_slot(clamped:bool,slot_type:int,slot_data_type:int):
-	var slot:Control = null
-	var slot_index:int = get_child_count()
-	if (slot_type == eSlotType.Out or slot_type == eSlotType.NoSlot):
-		slot = HBoxContainer.new()
-		slot.size_flags_horizontal = SIZE_EXPAND_FILL
-		slot.alignment = HBoxContainer.ALIGN_END
-		if (slot_type == eSlotType.Out):
-			set_slot(slot_index,false,-1,-1,true,slot_data_type,Color.gray)
-			var label = Label.new()
-			label.text = "Output"
-			slot.add_child(label)
-			add_child(slot)
-	else:
-		slot = SFXGenNodeSlider.new(clamped)
-		add_child(slot)
-		set_slot(slot_index,true,slot_data_type,Color.gray,false,-1,-1)
+func add_slot_menu(option_array:Array = []):
+	var slot:SFXGenNodeMenuSlot = SFXGenNodeMenuSlot.new(option_array)
+	add_child(slot)
 	return slot
+
+func add_slot_output(name:String = "Output"):
+	var slot = HBoxContainer.new()
+	slot.size_flags_horizontal = SIZE_EXPAND_FILL
+	slot.alignment = HBoxContainer.ALIGN_END
+	var label = Label.new()
+	label.text = name
+	slot.add_child(label)
+	add_child(slot)
+	set_slot(get_child_count()-1,false,-1,-1,true,0,Color.azure)
+
+#func add_slot(clamped:bool,slot_type:int,slot_data_type:int):
+#	var slot:Control = null
+#	var slot_index:int = get_child_count()
+#	if (slot_type == eSlotType.Out or slot_type == eSlotType.NoSlot):
+#		slot = HBoxContainer.new()
+#		slot.size_flags_horizontal = SIZE_EXPAND_FILL
+#		slot.alignment = HBoxContainer.ALIGN_END
+#		if (slot_type == eSlotType.Out):
+#			set_slot(slot_index,false,-1,-1,true,slot_data_type,Color.gray)
+#			var label = Label.new()
+#			label.text = "Output"
+#			slot.add_child(label)
+#			add_child(slot)
+#	else:
+#		slot = SFXGenNodeSlider.new(clamped)
+#		add_child(slot)
+#		set_slot(slot_index,true,slot_data_type,Color.gray,false,-1,-1)
+#	return slot
 
 #extends GraphNode
 #class_name SFXGenNode

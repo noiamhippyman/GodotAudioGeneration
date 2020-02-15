@@ -1,5 +1,5 @@
-extends MarginContainer
-class_name SFXGenNodeSlider
+extends SFXGenNodeSlot
+class_name SFXGenNodeSliderSlot
 
 var minus_button:Button = null
 var plus_button:Button = null
@@ -96,6 +96,7 @@ func apply_new_text_change(new_text:String):
 		value_line_edit.text = "%1.3f" % get_value()
 
 func _init(clamped:bool):
+	._init()
 	mouse_filter = MOUSE_FILTER_PASS
 	
 	var hbox:HBoxContainer = HBoxContainer.new()
