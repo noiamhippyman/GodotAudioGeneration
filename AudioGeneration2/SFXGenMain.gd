@@ -84,6 +84,10 @@ func _on_project_editor_delete_nodes_request():
 func _on_FileMenuButton_new_project_requested():
 	create_project()
 
+func _on_FileMenuButton_close_project_requested():
+	if (!no_projects_vbox.visible):
+		close_project_tab(project_tabs.current_tab)
+
 func _on_Tabs_tab_changed(tab:int):
 	change_project_tab(tab)
 
@@ -92,10 +96,6 @@ func _on_Tabs_tab_close(tab:int):
 
 func _on_NoProjectsVBox_Button_pressed():
 	create_project()
-
-func _on_FileMenuButton_close_project_requested():
-	if (!no_projects_vbox.visible):
-		close_project_tab(project_tabs.current_tab)
 
 
 func _on_AddNodePopupMenu_id_pressed(id):

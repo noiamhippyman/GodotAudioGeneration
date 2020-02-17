@@ -30,7 +30,7 @@ func set_value(new_value:float):
 func get_value():
 	return value
 
-var step:float = 0.001 setget set_step,get_step
+var step:float = 0.01 setget set_step,get_step
 func set_step(new_step:float):
 	step = new_step
 	emit_signal("property_changed",step)
@@ -68,7 +68,10 @@ func start_dragging(start_pos:Vector2):
 
 func process_dragging(amount:float):
 	var hbox = get_child(0)
-	var new_value = get_value() + step * amount
+	var mod:float = 1.0
+	if (Input.is_key_pressed(KEY_SHIFT)):
+		mod *= 0.1
+	var new_value = get_value() + step * amount * mod
 	set_value(new_value)
 
 func stop_dragging(stop_pos:Vector2):
@@ -143,7 +146,6 @@ func _init(clamped:bool):
 	value_label = Label.new()
 	value_label.align = Label.ALIGN_RIGHT
 	value_label.rect_min_size.x = 120
-	value_label.size_flags_horizontal = SIZE_EXPAND_FILL
 	value_label.text = "%1.3f" % value
 	value_label.mouse_filter = MOUSE_FILTER_IGNORE
 	hbox.add_child(value_label)

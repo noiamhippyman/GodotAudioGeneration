@@ -8,18 +8,13 @@ func add_slot_slider(name:String, clamped:bool = true):
 	set_slot(get_child_count()-1,true,0,Color.azure,false,-1,-1)
 	return slider
 
-func add_slot_menu(option_array:Array = []):
-	var slot:SFXGenNodeMenuSlot = SFXGenNodeMenuSlot.new(option_array)
+func add_slot_menu(option_array:Array = [], start_index:int = 0):
+	var slot:SFXGenNodeMenuSlot = SFXGenNodeMenuSlot.new(option_array, start_index)
 	add_child(slot)
 	return slot
 
-func add_slot_output(name:String = "Output"):
-	var slot = HBoxContainer.new()
-	slot.size_flags_horizontal = SIZE_EXPAND_FILL
-	slot.alignment = HBoxContainer.ALIGN_END
-	var label = Label.new()
-	label.text = name
-	slot.add_child(label)
+func add_slot_output(output_text:String = "Value"):
+	var slot:SFXGenNodeOutputSlot = SFXGenNodeOutputSlot.new(output_text)
 	add_child(slot)
 	set_slot(get_child_count()-1,false,-1,-1,true,0,Color.azure)
 
